@@ -4,33 +4,44 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Line from 'react-chartjs-2';
-import Typography from '@material-ui/core/Typography';
+import { XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalGridLines, LineSeries, LineMarkSeries } from 'react-vis';
+import { erf, sqrt, log10, exp, pow, pi, e } from 'mathjs';
+
 
 function TabContainer(props) {
-  const data = {
-    labels: [
-      '10/04/2018', '10/05/2018', 
-      '10/06/2018', '10/07/2018', 
-      '10/08/2018', '10/09/2018', 
-      '10/10/2018', '10/11/2018', 
-      '10/12/2018', '10/13/2018', 
-      '10/14/2018', '10/15/2018'
-    ],
-    datasets: [
-      {
-        label: 'Temperature',
-        data: [22,19,27,23,22,24,17,25,23,24,20,19],
-        fill: false,          // Don't fill area under the line
-        borderColor: 'green'  // Line color
-      }
-    ]
+
+  const data = new Array(19).fill(0).reduce((prev, curr) => [...prev, {
+    x: prev.slice(-1)[0].x + 1,
+    y: prev.slice(-1)[0].y * (0.9 + Math.random() * 0.2)
+  }], [{ x: 0, y: 10 }]);
+  console.log(data);
+
+  let berGaussian = (q) => 0.5 * (1 - erf(q / sqrt(2)));
+  let berLaplace = (q) => 0.5 * (exp(-q));
+  let berRayleigh = (q) => (exp(0.5 * pow(q, -2)));
+  let berMaxwell = (q) => sqrt(0.5 * pi) * (1 - erf(q / sqrt(2)) + pow(sqrt(e), -1));
+
+  function generateQfactors(size) {
+    let data = [];
+    for (let index = 0; index < size; index++) {
+      let qfactor = 20 * log10(1.5 + index);
+      let ber = berLaplace(qfactor);
+      data.push({ x: ber, y: qfactor });
+    }
+    return data;
   }
+
+  const dataset = generateQfactors(15);
+  console.log(dataset);
+
+
   return (
-    <Line data={data}></Line>
-    // <Typography component="div" style={{ padding: 8 * 3 }}>
-    //   {props.children}
-    // </Typography>
+    <XYPlot xType="log"
+      width={400} height={300}><XAxis title="BER" /><YAxis title="Q-factor [dB]" />
+      <HorizontalGridLines />
+      <VerticalGridLines />
+      <LineMarkSeries data={dataset} />
+    </XYPlot>
   );
 }
 
