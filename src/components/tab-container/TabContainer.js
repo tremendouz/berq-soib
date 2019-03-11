@@ -4,9 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalGridLines, LineSeries, LineMarkSeries } from 'react-vis';
+import { XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalGridLines, LineSeries, LineMarkSeries, ChartLabel } from 'react-vis';
 import { erf, sqrt, log10, exp, pow, pi, e } from 'mathjs';
-
+import './TabContainer.css';
 
 function TabContainer(props) {
 
@@ -36,13 +36,36 @@ function TabContainer(props) {
 
 
   return (
-    <XYPlot xType="log"
-      width={400} height={300}><XAxis title="BER" /><YAxis title="Q-factor [dB]" />
-      <HorizontalGridLines />
-      <VerticalGridLines />
-      <LineMarkSeries data={dataset} />
-    </XYPlot>
+    <div>
+      <XYPlot xType="log"
+        margin={{ left: 100, bottom: 100 }}
+        width={600} height={500}><XAxis /><YAxis />
+        <HorizontalGridLines />
+        <VerticalGridLines />
+        <ChartLabel
+          text="BER"
+          includeMargin={false}
+          xPercent={0.5}
+          yPercent={1.2}
+          style={{
+            textAnchor: 'end'
+          }}
+        />
+        <ChartLabel
+          text="Q-Factor [dB]"
+          includeMargin={false}
+          xPercent={-0.15}
+          yPercent={0.5}
+          style={{
+            textAnchor: 'end',
+            transform: 'rotate(90)'
+          }}
+        />
+        <LineMarkSeries data={dataset} />
+      </XYPlot>
+    </div>
   );
+
 }
 
 TabContainer.propTypes = {
