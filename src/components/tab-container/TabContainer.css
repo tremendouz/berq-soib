@@ -1,3 +1,13 @@
 .rv-xy-plot__axis__title text {
     font-size: 16px;
 }
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.calculateq {
+    width: 400px;
+    background-color: red;
+}
