@@ -4,28 +4,15 @@ import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { erf, sqrt, log10, exp, pow, pi, e } from "mathjs";
 import "./TabContainer.css";
-import { TextField, Button } from "@material-ui/core";
 import BerPlot from "../ber-plot/BerPlot";
+import CalcCard from "../calc-card/CalcCard";
 
 function TabContainer(props) {
   return (
     <div className="container">
       <BerPlot type={props.type}></BerPlot>
-      <div className="calculateq">
-        <TextField id="standard-name" label="Name" />
-        <TextField
-          id="standard-name2"
-          label="RESULT READONLY"
-          InputProps={{
-            readOnly: true
-          }}
-        />
-        <Button variant="contained" color="primary">
-          Primary
-        </Button>
-      </div>
+      <CalcCard type={props.type}></CalcCard>
     </div>
   );
 }
