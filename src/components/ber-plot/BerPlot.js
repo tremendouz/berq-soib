@@ -18,13 +18,15 @@ const styles = {
 
 function BerPlot(props) {
   const dataset = generateQfactors(15, berMethods[props.type]);
-  const plotType = props.type == 3 ? "log" : "log";
+  // const plotType = props.type == 3 ? "log" : "log";
+  const plotType = "linear";
   console.log(dataset);
 
   return (
     <div className="container">
       <XYPlot
         xType={plotType}
+        yType="log"
         margin={{ left: 100, bottom: 100 }}
         width={600}
         height={500}
@@ -34,7 +36,8 @@ function BerPlot(props) {
         <HorizontalGridLines />
         <VerticalGridLines />
         <ChartLabel
-          text="BER"
+        // change i to qfactor withotu db
+          text="Q-Factor"
           includeMargin={false}
           xPercent={0.5}
           yPercent={1.2}
@@ -43,7 +46,8 @@ function BerPlot(props) {
           }}
         />
         <ChartLabel
-          text="Q-Factor [dB]"
+        // change it to ber
+          text="BER"
           includeMargin={false}
           xPercent={-0.15}
           yPercent={0.5}
